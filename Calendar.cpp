@@ -12,6 +12,33 @@ void output_calendar(); // 입력받은 연도와 월의 달력을 출력
 void Select_Option(int&); // 옵션을 출력하고 입력받음 
 void textcolor(int foreground, int background); //색깔추가기능 
 void gotoxy(int x, int y);
+
+class MEMO {
+private:
+    string DATE;   
+    string schedule;  
+public:
+    int putSchedule();   
+    void printSchedule(); 
+};
+
+int MEMO::putSchedule() {
+    cout << "일정 추가할 날짜: ";
+    getline(cin, DATE);
+    cout << endl;
+    cout << "일정 내용: ";
+    getline(cin, schedule);
+    cout << endl;
+    return 0;
+}
+
+void MEMO::printSchedule() {
+    cout << endl << endl;
+    cout << DATE << endl;
+    cout << schedule << endl;
+    cout << endl << endl;
+}
+
 int main()
 {
     input();
@@ -45,18 +72,22 @@ void Cal_leap() {
 }
 
 void output_calendar() {
-	textcolor(11, 0);
-	cout << "  " << endl << "       " << year << "년 " << month << "월       " << endl << endl << "  " <<
-        "일 " << "월 " << "화 " << "수 " << "목 " << "금 " << "토  " << endl << "  ";
 	textcolor(15, 0);
+	cout << "  " << endl << "      [" << year << "년 " << month << "월]      " << endl << endl << "  " <<
+        "일 " << "월 " << "화 " << "수 " << "목 " << "금 " << "토  " << endl << "  ____________________" << endl << "  ";
+	textcolor(15, 0);
+	
     for (int i = 0; i < week; i++)
         cout << "   ";
-
+	
     for (int j = 1; j <= Month_days[month - 1]; j++)
     {
+    	if(week % 7 == 0) textcolor(12, 0); // 12(빨) , 9(파) 
+    	else if(week % 7 == 6) textcolor(9, 0);
+    	else textcolor(15, 0);
         printf("%2d ", j);
         if (week % 7 == 6)
-            cout << "  " << endl << "  ";
+            cout << "  " << endl << "  "; 
         week = (week + 1) % 7;
     }
     cout << endl;
@@ -84,13 +115,20 @@ void Select_Option(int &num) {
     gotoxy(60, 11);
 	cout << "옵션 변호: ";
     cin >> num;
+    if (num == 1){
+    	cout << endl;
+    	MEMO obj;
+    	cout << endl;
+    	obj.putSchedule();
+    	Select_Option(num);
+	}
     if (num == 7) {
         system("cls");
         input();
         week = getweek(year, month);
         Cal_leap();
         output_calendar();
-        while(num != 8) Select_Option(num);  
+        Select_Option(num);  
 	}
     else if (num == 8)
 	{
