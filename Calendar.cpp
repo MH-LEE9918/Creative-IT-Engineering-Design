@@ -734,40 +734,44 @@ void schedule(int year)
           cin >> input;
           textcolor(15, 0);
        if (input == 1){
-               cout << "\n[추가할 일정] \n";
+       		   system("cls");
+               cout << endl << "[추가할 일정]" << endl << endl;
                insert(user, &person);
           }
           else if (input == 2){
-               cout << "\n[삭제할 일정] \n";
+          	   system("cls");
+               cout << "[삭제할 일정]" << endl << endl;
                deleted(user, &person);
           }
           else if (input == 3){
-               cout << "\n[일정 검색] \n"; 
+          	   system("cls");
+               cout << "[일정 검색]" << endl << endl;
                search(user, &person);
           }
           else if (input == 4){
-               cout << "\n[P일정 확인] \n";
+          	   system("cls");
+               cout << "[일정 확인]" << endl << endl;
                printAll(user, &person);
           }
           else if (input == 5){
+          	   system("cls");
                saveFile(user, &person);
                break;
           }
           else
-               cout << "\n에러! 다시 시도해주세요! \n\n";
+			   cout << "\n에러! 다시 시도해주세요! \n\n";
          }
 }
 
 //데이터를 파일에 저장하는 함수
 int saveFile(User* ptr, int* num){
-
      if (*num > 0){
           int i, state;
           FILE* fp = fopen("Schedule.txt", "wt");
           /* fopen함수는 오류발생시 NULL을 리턴하므로
           파일 개방 중 오류발생시 프로그램을 종료 */
           if (fp == NULL){
-               printf("File Open Error!\n");
+               cout << "File Open Error!" << endl;
                return 1;
           }
           //구조체 배열에 저장된 데이터를 파일에 저장
@@ -781,14 +785,14 @@ int saveFile(User* ptr, int* num){
           안내후 프로그램을 종료 */
           state = fclose(fp);
           if (state != 0){
-               printf("File Close Error!\n");
+               cout << "File Close Error!" << endl;
                return 1;
           }
-          printf("\n  Data Save \n");
+          cout << "\n  Data Save \n";
           return 0;
      }
      else{
-          printf("\n  Exit \n");
+          cout << "\n  Exit \n";
           return 0;
      }
 }
@@ -799,7 +803,7 @@ int openFile(User* ptr, int* num){
      char temp;
      FILE* fp = fopen("Schedule.txt", "rt");
      if (fp == NULL){
-          printf("File Open Error!\n");
+          cout << "File Open Error!" << endl;
           return 1;
      }
      //파일에 저장된 데이터를 구조체 배열에 저장
@@ -814,27 +818,26 @@ int openFile(User* ptr, int* num){
      안내후 프로그램을 종료 */
      state = fclose(fp);
      if (state != 0){
-          printf("File Close Error!\n");
+          cout << "File Close Error!" << endl;
           return 1;
      }
      return 0;
 }
 //사용자의 정보를 삽입하는 함수
 void insert(User* ptr, int* num){
-
      //유저정보가 꽉 차지 않으면
      if (*num < MAX_NUM){
-          printf("일정을 입력해주세요 : ");
-          scanf("%s", ptr[*num].name);
-          printf("날짜를 입력해주세요 : ");
+          cout << "일정을 입력해주세요: ";
+          cin >> ptr[*num].name;
+          cout << "날짜를 입력해주세요: ";
           cin >> ptr[*num].day;
 
           (*num)++;
-          cout << "  일정이 추가되었습니다. \n\n";
+          cout << endl << "일정이 추가되었습니다. \n\n";
      }
      //유저 정보가 꽉 차면
      else
-          cout << "  일정이 꽉 찼습니다." << endl << "불필요한 일정을 제거해주십시오." << endl; 
+          cout << endl << "일정이 꽉 찼습니다." << endl << "불필요한 일정을 제거해주십시오." << endl; 
     }
 //사용자의 정보를 삭제하는 함수
 int deleted(User* ptr, int* num){
@@ -847,10 +850,8 @@ int deleted(User* ptr, int* num){
           for (i = 0; i < MAX_NUM; i++){
            //문자열이므로 비교하기위해 strcmp사용
                if (strcmp(name, ptr[i].name) == 0){
-
                     (*num)--;
-                    cout << "일정이 삭제되었습니다. \n\n";
-
+                    cout << endl << "일정이 삭제되었습니다. \n\n";
                     //데이터가 가득 차지 않았다면
                     if (i != MAX_NUM - 1){
                          for (j = i; j < MAX_NUM; j++){
@@ -871,12 +872,12 @@ int deleted(User* ptr, int* num){
                return 0;
                }
           }
-          cout << "찾지 못했습니다. \n\n";
+          cout << endl << "찾지 못했습니다. \n\n";
           return 0;
      }
      //저장된 유저 정보가 없다면
      else{
-          cout << "-> 일정이 존재하지 않습니다. \n\n";
+          cout << endl << "-> 일정이 존재하지 않습니다. \n\n";
           return 0;
      }
 }
@@ -887,15 +888,14 @@ int search(User* ptr, int* num){
      //저장된 데이터가 있다면
      if (*num > 0){
           cout << "검색하고자 하는 일정을 입력해주세요 : ";
-          scanf("%s", name);
+          cin >> name;
           for (i = 0; i < MAX_NUM; i++){
                //strcmp는 문자열이 일치할때 0을 반환
                //0은 C언어에서 거짓을 의미
                //그러므로 ! 을 붙여 참으로 변경하여 실행
                if (!strcmp(name, ptr[i].name)){
-                    cout << "일정: " << ptr[i].name;
-                    cout << "날짜:  \n" << ptr[i].day;
-                    cout << "  Data Found \n\n";
+                    cout << "일정: " << ptr[i].name << endl;
+                    cout << "날짜: " << ptr[i].day;
                     return 0;
                }
           }
@@ -903,7 +903,7 @@ int search(User* ptr, int* num){
       return 0;
      }
      else{
-          cout << "  데이터가 존재하지 않습니다. \n\n";
+          cout << endl << "데이터가 존재하지 않습니다. \n\n";
           return 0;
      }
 }
@@ -912,10 +912,9 @@ void printAll(User* ptr, int* num){
      int i = 0;
      if (*num > 0){
           for (i = 0; i < *num; i++){
-               cout << "일정 : " << ptr[i].name;
-               cout << "날짜 :  \n" << ptr[i].day;
+               cout << "일정 : " << ptr[i].name << endl;
+               cout << "날짜 : " << ptr[i].day << endl;
           }
-          cout << " 일정 출력 \n\n";
      }
      else
           cout << "-> 데이터가 존재하지 않습니다. \n\n";
